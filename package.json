@@ -1,0 +1,64 @@
+{
+  "name": "job-worker",
+  "version": "0.0.1",
+  "description": "job worker based on worker threads",
+  "license": "MIT",
+  "main": "app.js",
+  "repository": {
+    "type": "git"
+  },
+  "engines": {
+    "node": ">=16.14.0 <18.0.0",
+    "npm": ">=8.19.0"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "node-cron": "^3.0.2",
+    "ssh2-sftp-client": "^9.0.4",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.27.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "start:dev": "nodemon --max_old_space_size=10000 -r dotenv/config --inspect app.js dotenv_config_path=./.env",
+    "lint": "eslint . --fix --ext .js",
+    "format": "prettier -w .",
+    "test": "jest",
+    "test:cov": "jest --coverage --maxWorkers=1",
+    "uuid": "node -e \"console.log(require('uuid').v4())\""
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "./docs",
+      "./data"
+    ]
+  },
+  "jest": {
+    "rootDir": ".",
+    "testRegex": ".*\\.spec\\.js$",
+    "collectCoverageFrom": [
+      "**/*.js"
+    ],
+    "modulePathIgnorePatterns": [
+      "./.eslintrc.js",
+      "./assets",
+      "./coverage"
+    ],
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node"
+  }
+}
