@@ -38,19 +38,20 @@ function getJobWorkerList() {
 async function updateJobWorker(jobWorker, options) {
   // TODO add input DTO
 
+  const worker = jobWorker; // keep attention (by link)
   if (options.active === true) {
-    jobWorker.active = true;
-    if (jobWorker.cron) startCRONTask(jobWorker.cron);
+    worker.active = true;
+    if (worker.cron) startCRONTask(worker.cron);
   }
   if (options.active === false) {
-    jobWorker.active = false;
-    if (jobWorker.cron) stopCRONTask(jobWorker.cron);
+    worker.active = false;
+    if (worker.cron) stopCRONTask(worker.cron);
   }
-  if (options.title) jobWorker.title = options.title;
-  if (options.env) jobWorker.env = options.env;
-  if (options.path) jobWorker.workerPath = options.path;
+  if (options.title) worker.title = options.title;
+  if (options.env) worker.env = options.env;
+  if (options.path) worker.workerPath = options.path;
 
-  return jobWorker;
+  return worker;
 }
 
 module.exports = {

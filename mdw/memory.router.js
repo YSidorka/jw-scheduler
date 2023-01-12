@@ -15,7 +15,7 @@ router.get(MEMORY_ROUTE, async (req, res, next) => {
     });
     return res.send(result);
   } catch (err) {
-    return next({ message: `POST ${MEMORY_ROUTE}: ${err.message}` });
+    return next({ message: `GET ${MEMORY_ROUTE}: ${err.message}` });
   }
 });
 

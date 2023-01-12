@@ -1,4 +1,4 @@
-const dataJSON = require('../../docs/data.json');
+const dataJSON = require('../../docs/data.json'); // TODO change to the MongoDB module
 
 function envInit(env) {
   try {
