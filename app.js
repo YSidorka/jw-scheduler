@@ -9,7 +9,12 @@ const { addWorker } = require('./modules/worker-module/worker.service');
 // app router/middleware
 const AppMiddleware = require('./mdw/app.mdw');
 
-const AppModule = [EnvConfig, ServerConfig, AppMiddleware, CRONModule];
+const AppModule = [
+  EnvConfig,
+  ServerConfig,
+  AppMiddleware,
+  CRONModule
+];
 
 AppModule.forEach((module) => module && module.init());
 

@@ -19,9 +19,9 @@ const schema = new Schema(
   }
 );
 
-// schema.plugin(fieldEncryption, {
-//   fields: ['data'],
-//   secret: getStore().secret
-// });
+schema.plugin(fieldEncryption, {
+  fields: ['data'],
+  secret: getStore().options?.secret
+});
 
 module.exports = mongoose.model('Environment', schema);

@@ -17,7 +17,7 @@ function getSchemaByType(type) {
 async function findMany(options) {
   try {
     await mongooseConnect();
-    const result = await DefaultDocumentSchema.find(options).lean();
+    const result = await DefaultDocumentSchema.find(options);
     return result;
   } catch (err) {
     console.log(`Error findMany: ${JSON.stringify(options)} -`, err.message);
@@ -28,7 +28,8 @@ async function findMany(options) {
 async function findOne(options) {
   try {
     await mongooseConnect();
-    return await DefaultDocumentSchema.findOne(options).lean();
+    const result = await DefaultDocumentSchema.findOne(options);
+    return result;
   } catch (err) {
     console.log(`Error findOne: ${JSON.stringify(options)} -`, err.message);
     return null;

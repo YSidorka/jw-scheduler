@@ -1,5 +1,3 @@
-const { filter: _filter, isEmpty: _isEmpty } = require('lodash');
-
 const {
   getDocumentList,
   getDocumentById,

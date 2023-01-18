@@ -6,7 +6,7 @@ let dataStoreEnv = {};
 function initEnvSettings() {
   try {
     port = process.env.PORT || port;
-    setDataStoreModule();
+    dataStoreEnv = getDataStoreModule();
   } catch (err) {
     console.log(`Environment initialization: FAILED!!!`, err);
     process.exit(0);
@@ -14,20 +14,21 @@ function initEnvSettings() {
   printEnv();
 }
 
-function setDataStoreModule() {
+function getDataStoreModule() {
   try {
     const { dbUrl, dbName, secret } = JSON.parse(process.env.DATA_STORAGE);
 
-    dataStoreEnv = {
+    return {
       type: MONGODB_STORE,
       options: {
         dbUrl,
         dbName,
-        secret
+        secret: secret || ''
       }
     };
   } catch (err) {
     console.log(`Error setDataStoreModule:`, err.message);
+    return {};
   }
 }
 
@@ -46,5 +47,5 @@ module.exports = {
   get httpPort() {
     return port;
   },
-  getStore: () => dataStoreEnv
+  getStore: getDataStoreModule
 };

@@ -46,7 +46,8 @@
   "nodemonConfig": {
     "ignore": [
       "./docs",
-      "./data"
+      "./data",
+      "package.json"
     ]
   },
   "jest": {
