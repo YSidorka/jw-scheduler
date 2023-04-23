@@ -1,4 +1,4 @@
-const { MONGODB_STORE } = require('../../common/constants');
+const { MONGODB_STORE } = require('sky-constants');
 
 let port = 80;
 let dataStoreEnv = {};
@@ -16,13 +16,14 @@ function initEnvSettings() {
 
 function getDataStoreModule() {
   try {
-    const { dbUrl, dbName, secret } = JSON.parse(process.env.DATA_STORAGE);
+    const { dbUrl, dbName, secret, cert } = JSON.parse(process.env.DATA_STORAGE);
 
     return {
       type: MONGODB_STORE,
       options: {
         dbUrl,
         dbName,
+        cert,
         secret: secret || ''
       }
     };

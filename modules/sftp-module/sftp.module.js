@@ -18,6 +18,7 @@ async function _closeSFTP(client) {
   try {
     await client.end();
     console.log('SFTP connection closed');
+    // eslint-disable-next-line no-param-reassign
     client = null;
   } catch (err) {
     console.log('Error closeSFTP:', err);

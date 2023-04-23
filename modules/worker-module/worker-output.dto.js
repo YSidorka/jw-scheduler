@@ -1,4 +1,6 @@
-const { SECOND } = require('../../common/constants');
+const { SECOND } = require('sky-constants');
+const { STATUS_NEW, STATUS_PROCESS, STATUS_TERM, STATUS_FINISH } = require('./worker.class');
+const { getLogs } = require('../log-module/log.module');
 
 class WorkerOutputDto {
   constructor(obj) {
@@ -26,7 +28,16 @@ class WorkerOutputDto {
       this.cron = { cronExp, timezone };
     }
 
-    this.log = obj.log;
+    this.log = [];
+    // CSS settings
+    if (this.status === STATUS_NEW) this._status = 'secondary';
+    if (this.status === STATUS_PROCESS) this._status = 'primary';
+    if (this.status === STATUS_TERM) this._status = 'danger';
+    if (this.status === STATUS_FINISH) this._status = 'success';
+  }
+
+  async getLogs() {
+    this.log = await getLogs(this.id);
   }
 }
 

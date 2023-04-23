@@ -39,6 +39,12 @@ async function updateJobWorker(jobWorker, options) {
   // TODO add input DTO
 
   const worker = jobWorker; // keep attention (by link)
+
+  if (options.title) worker.title = options.title;
+  if (options.env) worker.env = options.env;
+  if (options.path) worker.workerPath = options.path;
+
+  // activate worker (cron)
   if (options.active === true) {
     worker.active = true;
     if (worker.cron) startCRONTask(worker.cron);
@@ -47,9 +53,6 @@ async function updateJobWorker(jobWorker, options) {
     worker.active = false;
     if (worker.cron) stopCRONTask(worker.cron);
   }
-  if (options.title) worker.title = options.title;
-  if (options.env) worker.env = options.env;
-  if (options.path) worker.workerPath = options.path;
 
   return worker;
 }

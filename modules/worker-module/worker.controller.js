@@ -6,10 +6,21 @@ const { getWorkerList, getWorkerById, addWorker, updateWorker } = require('./wor
 async function getAllWorkersCtrl(req, res, next) {
   try {
     const data = getWorkerList();
-    let result = data.map((item) => new WorkerOutputDto(item));
+    let result = [];
+
+    for (let i = 0; i < data.length; i += 1) {
+      const dto = new WorkerOutputDto(data[i]);
+      await dto.getLogs();
+      result.push(dto);
+    }
     if (!_isEmpty(req.query)) result = _filter(result, req.query);
 
-    return res.send(result);
+    // render section
+    const page = { data: {} };
+    page.data.workers = result;
+
+    const view = 'dashboard';
+    return res.render(view, { ...page.data });
   } catch (err) {
     return next({ message: `GET /: ${err.message}` });
   }
@@ -21,7 +32,9 @@ async function getWorkerByIdCtrl(req, res, next) {
     const worker = getWorkerById(id);
     if (!worker) return next({ code: 404, message: 'Worker not found' });
 
-    return res.send(new WorkerOutputDto(worker));
+    const result = new WorkerOutputDto(worker);
+    await result.getLogs();
+    return res.send(result);
   } catch (err) {
     return next({ message: `GET /${req.params.id}: ${err.message}` });
   }
@@ -33,7 +46,9 @@ async function initWorkerCtrl(req, res, next) {
     const worker = addWorker(options);
     if (!worker) return next({ code: 400, message: 'Cannot init worker' });
 
-    return res.send(new WorkerOutputDto(worker));
+    const result = new WorkerOutputDto(worker);
+    await result.getLogs();
+    return res.send(result);
   } catch (err) {
     return next({ message: `POST /init: ${err.message}` });
   }
@@ -45,10 +60,12 @@ async function startWorkerByIdCtrl(req, res, next) {
     const worker = getWorkerById(id);
     if (!worker) return next({ code: 404, message: 'Worker not found' });
 
-    const result = await worker.start();
+    let result = await worker.start();
     if (result instanceof Error) return next({ code: 400, message: result.message });
 
-    return res.send(new WorkerOutputDto(worker));
+    result = new WorkerOutputDto(worker);
+    await result.getLogs();
+    return res.send(result);
   } catch (err) {
     return next({ message: `POST /start/${req.params.id}: ${err.message}` });
   }
@@ -60,10 +77,12 @@ async function terminateWorkerByIdCtrl(req, res, next) {
     const worker = getWorkerById(id);
     if (!worker) return next({ code: 404, message: 'Worker not found' });
 
-    const result = await worker.terminate();
+    let result = await worker.terminate();
     if (result instanceof Error) return next({ code: 400, message: result.message });
 
-    return res.send(new WorkerOutputDto(worker));
+    result = new WorkerOutputDto(worker);
+    await result.getLogs();
+    return res.send(result);
   } catch (err) {
     return next({ message: `POST /terminate/${req.params.id}: ${err.message}` });
   }
@@ -78,7 +97,9 @@ async function updateWorkerByIdCtrl(req, res, next) {
     const options = req.body;
     await updateWorker(worker, options);
 
-    return res.send(new WorkerOutputDto(worker));
+    const result = new WorkerOutputDto(worker);
+    await result.getLogs();
+    return res.send(result);
   } catch (err) {
     return next({ message: `GET /${req.params.id}: ${err.message}` });
   }

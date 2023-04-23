@@ -3,7 +3,7 @@ function cloneObj(obj) {
 }
 
 async function sleep(time) {
-  return new Promise((resolve) => setTimeout(() => resolve(), time));
+  return new Promise((resolve) => setTimeout(() => resolve(), time)); // eslint-disable-line
 }
 
 function calcSize(o) {

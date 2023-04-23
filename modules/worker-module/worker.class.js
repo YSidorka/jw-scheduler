@@ -1,9 +1,11 @@
 const { Worker } = require('worker_threads');
 const { join } = require('path');
 
-const { MAIN_DIR, SECOND } = require('../../common/constants');
-const { envInit } = require('../data-module/data.module');
+const { MAIN_DIR, SECOND } = require('sky-constants');
+const { envInit } = require('../data-module/data.service');
 const { createCRONTask } = require('../cron-module/cron.module');
+
+const { addLog } = require('../log-module/log.module');
 
 class JobWorker {
   static STATUS_NEW = 'NEW';
@@ -63,9 +65,10 @@ class JobWorker {
     try {
       if (this.status === JobWorker.STATUS_PROCESS) throw new Error('Already started');
 
+      const $ENV = await envInit(this.env);
       const env = {
         title: this.title,
-        $ENV: JSON.stringify(envInit(this.env) || {})
+        $ENV: JSON.stringify($ENV || {})
       };
 
       this.worker = startWorkerProcess.call(this, env);
@@ -102,20 +105,22 @@ module.exports = JobWorker;
 function startWorkerProcess(env) {
   const worker = new Worker(join(MAIN_DIR, 'workers', this.workerPath), { env });
 
-  worker.on('message', (msgObj) => {
-    addLogMessage.call(this, msgObj);
+  worker.on('message', async (msgObj) => {
+    await addLog.call(null, this.id, msgObj);
   });
 
-  worker.on('error', (err) => {
-    addLogMessage.call(this, err.message);
+  worker.on('error', async (err) => {
+    await addLog.call(null, this.id, `Critical error: ${err.message}`);
+    await addLog.call(null, this.id, `Critical error: ${err.stack}`);
   });
 
-  worker.on('exit', (code) => {
+  worker.on('exit', async (code) => {
     this.status = code === 0 ? JobWorker.STATUS_FINISH : JobWorker.STATUS_TERM;
     this.finished = Date.now();
     stopTimeoutTermination.call(this);
-    addLogMessage.call(
-      this,
+    await addLog.call(
+      null,
+      this.id,
       `Worker exited with code ${code}. Duration: ${Math.round(
         (this.finished - this.started) / SECOND
       )}`
@@ -123,19 +128,6 @@ function startWorkerProcess(env) {
   });
 
   return worker;
-}
-
-function addLogMessage(msgObj) {
-  try {
-    const prevItem = this.log.pop();
-    const substr = prevItem.split(' | ')[1].substring(0, 10); // simple solution
-
-    // if prevItem not similar keep it at log
-    if (!msgObj.startsWith(substr)) this.log.push(prevItem);
-    this.log.push(`${new Date().toISOString()} | ${msgObj}`);
-  } catch (err) {
-    this.log.push(`${new Date().toISOString()} | ${msgObj}`);
-  }
 }
 
 function startTimeoutTermination() {

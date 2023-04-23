@@ -1,3 +1,5 @@
+const { TYPE_ENVIRONMENT } = require('sky-constants');
+const uuid = require('uuid');
 const {
   findMany,
   findOne,
@@ -6,13 +8,34 @@ const {
   deleteOne
 } = require('../mongodb-module/mongo.module');
 
+
+async function envInit(env) {
+  try {
+    const result = {};
+
+    const keys = Object.keys(env);
+    while (keys.length) {
+      const key = keys.pop();
+      if (env[key]) {
+        const doc = await getDocumentById(`${env[key]}`, TYPE_ENVIRONMENT);
+        result[key] = doc?.data || env[key];
+      }
+    }
+
+    return result;
+  } catch (err) {
+    console.log('Error: envInit', err.message);
+    return null;
+  }
+}
+
 async function getDocumentList(options) {
   const result = await findMany(options);
   return result || [];
 }
 
-async function getDocumentById(id) {
-  const result = await findOne({ _id: id });
+async function getDocumentById(id, type) {
+  const result = await findOne({ _id: id, type });
   return result || null;
 }
 
@@ -21,9 +44,14 @@ async function getDocumentByType(type) {
   return result || null;
 }
 
+async function getDocument(options) {
+  const result = await findOne(options);
+  return result || null;
+}
+
 async function createDocument(doc) {
   const { id, ..._doc } = doc;
-  const result = await createOne({ _id: id, ..._doc });
+  const result = await createOne({ _id: id || uuid.v4(), ..._doc });
   return result || null;
 }
 
@@ -39,9 +67,11 @@ async function deleteDocumentById(id) {
 }
 
 module.exports = {
+  envInit,
   getDocumentList,
   getDocumentById,
   getDocumentByType,
+  getDocument,
   createDocument,
   updateDocument,
   deleteDocumentById

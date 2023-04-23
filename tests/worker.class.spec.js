@@ -20,7 +20,7 @@ const VALID_MOCK = {
   title: 'Test title',
   env: { processingTime: 500 },
   path: 'test-worker.js',
-  timeout: 1
+  timeout: 1000
 };
 
 test(`#0 Is valid class`, () => {
@@ -176,7 +176,7 @@ test(`#8 Wait processing time`, async () => {
 
 test(`#9 Wait termination by timeout + terminate after`, async () => {
   const _timeout = VALID_MOCK.timeout;
-  VALID_MOCK.timeout = 0.1;
+  VALID_MOCK.timeout = 0.1; // 0.1 second
 
   const jobWorker = new JobWorker(VALID_MOCK);
   let result;
@@ -189,7 +189,7 @@ test(`#9 Wait termination by timeout + terminate after`, async () => {
   expect(result).toBe(true);
 
   // wait timeout
-  await sleep(500);
+  await sleep(1000); // 1 second
   expect(jobWorker.status).toEqual(JobWorker.STATUS_TERM);
 
   // terminate process

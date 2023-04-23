@@ -4,26 +4,11 @@ const ServerConfig = require('./modules/configs/server.config');
 
 // modules
 const CRONModule = require('./modules/cron-module/cron.module');
-const { addWorker } = require('./modules/worker-module/worker.service');
+const WorkerModule = require('./modules/worker-module/worker.module');
 
 // app router/middleware
 const AppMiddleware = require('./mdw/app.mdw');
 
-const AppModule = [
-  EnvConfig,
-  ServerConfig,
-  AppMiddleware,
-  CRONModule
-];
+const AppModule = [EnvConfig, ServerConfig, AppMiddleware, CRONModule, WorkerModule];
 
 AppModule.forEach((module) => module && module.init());
-
-addWorker({
-  title: `test:worker`,
-  path: 'test-worker.js',
-  env: {
-    processingTime: 3000
-  },
-  // cronexp: '0 * * * * *',
-  timeout: 5
-});
