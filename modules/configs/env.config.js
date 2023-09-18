@@ -28,7 +28,7 @@ function getDataStoreModule() {
       }
     };
   } catch (err) {
-    console.log(`Error setDataStoreModule:`, err.message);
+    console.log(`Error getDataStoreModule:`, err.message);
     return {};
   }
 }

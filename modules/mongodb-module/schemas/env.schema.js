@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const { fieldEncryption } = require('mongoose-field-encryption');
+// const { fieldEncryption } = require('mongoose-field-encryption');
 const { TYPE_ENVIRONMENT } = require('sky-constants');
 
-const { getStore } = require('../../configs/env.config');
+// const { getStore } = require('../../configs/env.config');
 
 const { Schema } = mongoose;
 const schema = new Schema(
@@ -19,11 +19,11 @@ const schema = new Schema(
   }
 );
 
-if (getStore().options?.secret) {
-  schema.plugin(fieldEncryption, {
-    fields: ['data'],
-    secret: getStore().options?.secret
-  });
-}
+// if (getStore().options?.secret) {
+//   schema.plugin(fieldEncryption, {
+//     fields: ['data'],
+//     secret: getStore().options?.secret
+//   });
+// }
 
 module.exports = mongoose.model('Environment', schema);

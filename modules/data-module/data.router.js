@@ -3,8 +3,7 @@ const {
   getAllDocumentsCtrl,
   getDocumentByIdCtrl,
   createDocumentCtrl,
-  updateDocumentByIdCtrl,
-  deleteDocumentByIdCtrl
+  updateDocumentByIdCtrl
 } = require('./data.controller');
 
 const router = express.Router();
@@ -16,7 +15,5 @@ router.get('/:id', getDocumentByIdCtrl);
 router.post('/', createDocumentCtrl);
 
 router.patch('/:id', updateDocumentByIdCtrl);
-
-router.delete('/:id', deleteDocumentByIdCtrl);
 
 module.exports = router;

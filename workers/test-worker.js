@@ -1,6 +1,6 @@
 const logger = require('jw-logger');
 
-const { sleep } = require('../common/utils');
+const { sleep } = require('sky-utils');
 
 const { processingTime } = JSON.parse(process.env.$ENV || '{}');
 

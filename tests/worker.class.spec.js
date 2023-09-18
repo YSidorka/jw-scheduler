@@ -1,5 +1,5 @@
+const { sleep } = require('sky-utils');
 const JobWorker = require('../modules/worker-module/worker.class');
-const { sleep } = require('../common/utils');
 
 const jobWorkerMockup = {
   id: null,

@@ -1,5 +1,4 @@
 const JobWorker = require('./worker.class');
-const { startCRONTask, stopCRONTask } = require('../cron-module/cron.module');
 
 const jobWorkerMap = new Map();
 
@@ -35,32 +34,8 @@ function getJobWorkerList() {
   return result;
 }
 
-async function updateJobWorker(jobWorker, options) {
-  // TODO add input DTO
-
-  const worker = jobWorker; // keep attention (by link)
-
-  if (options.title) worker.title = options.title;
-  if (options.env) worker.env = options.env;
-  if (options.path) worker.workerPath = options.path;
-
-  // activate worker (cron)
-  if (options.active === true) {
-    worker.active = true;
-    if (worker.cron) startCRONTask(worker.cron);
-  }
-  if (options.active === false) {
-    worker.active = false;
-    if (worker.cron) stopCRONTask(worker.cron);
-  }
-
-  return worker;
-}
-
 module.exports = {
   addWorker,
-  updateWorker: updateJobWorker,
-
   getWorkerList: getJobWorkerList,
   getWorkerById: getJobWorkerById
 };

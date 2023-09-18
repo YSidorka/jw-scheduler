@@ -1,6 +1,6 @@
 const express = require('express');
 const { MEMORY_ROUTE } = require('sky-constants');
-const { setResponseHeader } = require('../common/utils');
+const { setResponseHeader } = require('sky-utils');
 
 const router = express.Router();
 

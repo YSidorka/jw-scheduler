@@ -8,7 +8,6 @@ const {
   deleteOne
 } = require('../mongodb-module/mongo.module');
 
-
 async function envInit(env) {
   try {
     const result = {};
@@ -39,11 +38,6 @@ async function getDocumentById(id, type) {
   return result || null;
 }
 
-async function getDocumentByType(type) {
-  const result = await findOne({ type });
-  return result || null;
-}
-
 async function getDocument(options) {
   const result = await findOne(options);
   return result || null;
@@ -61,18 +55,11 @@ async function updateDocument(doc) {
   return result || null;
 }
 
-async function deleteDocumentById(id) {
-  const result = await deleteOne({ _id: id });
-  return result;
-}
-
 module.exports = {
   envInit,
   getDocumentList,
   getDocumentById,
-  getDocumentByType,
   getDocument,
   createDocument,
-  updateDocument,
-  deleteDocumentById
+  updateDocument
 };

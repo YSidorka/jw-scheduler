@@ -1,7 +1,7 @@
 const { filter: _filter, isEmpty: _isEmpty } = require('lodash');
 
 const WorkerOutputDto = require('./worker-output.dto');
-const { getWorkerList, getWorkerById, addWorker, updateWorker } = require('./worker.service');
+const { getWorkerList, getWorkerById } = require('./worker.service');
 
 async function getAllWorkersCtrl(req, res, next) {
   try {
@@ -19,8 +19,9 @@ async function getAllWorkersCtrl(req, res, next) {
     const page = { data: {} };
     page.data.workers = result;
 
-    const view = 'dashboard';
-    return res.render(view, { ...page.data });
+    // const view = 'dashboard';
+    return res.send(page.data);
+    // return res.render(view, { ...page.data });
   } catch (err) {
     return next({ message: `GET /: ${err.message}` });
   }
@@ -37,20 +38,6 @@ async function getWorkerByIdCtrl(req, res, next) {
     return res.send(result);
   } catch (err) {
     return next({ message: `GET /${req.params.id}: ${err.message}` });
-  }
-}
-
-async function initWorkerCtrl(req, res, next) {
-  try {
-    const options = req.body;
-    const worker = addWorker(options);
-    if (!worker) return next({ code: 400, message: 'Cannot init worker' });
-
-    const result = new WorkerOutputDto(worker);
-    await result.getLogs();
-    return res.send(result);
-  } catch (err) {
-    return next({ message: `POST /init: ${err.message}` });
   }
 }
 
@@ -88,28 +75,9 @@ async function terminateWorkerByIdCtrl(req, res, next) {
   }
 }
 
-async function updateWorkerByIdCtrl(req, res, next) {
-  try {
-    const { id } = req.params;
-    const worker = getWorkerById(id);
-    if (!worker) return next({ code: 404, message: 'Worker not found' });
-
-    const options = req.body;
-    await updateWorker(worker, options);
-
-    const result = new WorkerOutputDto(worker);
-    await result.getLogs();
-    return res.send(result);
-  } catch (err) {
-    return next({ message: `GET /${req.params.id}: ${err.message}` });
-  }
-}
-
 module.exports = {
   getAllWorkersCtrl,
   getWorkerByIdCtrl,
-  initWorkerCtrl,
   startWorkerByIdCtrl,
-  terminateWorkerByIdCtrl,
-  updateWorkerByIdCtrl
+  terminateWorkerByIdCtrl
 };

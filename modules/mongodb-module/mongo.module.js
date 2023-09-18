@@ -1,17 +1,13 @@
 const mongoose = require('mongoose');
-const fs = require('fs');
-const { promisify } = require('util');
 
-const { getStore } = require('../configs/env.config');
 const { SECOND, TYPE_ENVIRONMENT, TYPE_WORKER, TYPE_LOG } = require('sky-constants');
-const { sleep } = require('../../common/utils');
+const { sleep } = require('sky-utils');
+const { getStore } = require('../configs/env.config');
 
 const EnvironmentSchema = require('./schemas/env.schema');
 const WorkerSchema = require('./schemas/worker.schema');
 const LogSchema = require('./schemas/log.schema');
 
-const writeFile = promisify(fs.writeFile);
-const chmod = promisify(fs.chmod);
 let processFlag = false;
 
 function getSchemaByType(type) {
@@ -117,17 +113,8 @@ async function mongooseConnect(dbName) {
 
     const DB_URL = getStore().options?.dbUrl;
     const DB_NAME = getStore().options?.dbName;
-    const DB_CERT = getStore().options?.cert;
 
-    if (DB_CERT) {
-      const certFile = `${__dirname}/rootCA.pem`;
-      await writeFile(certFile, `${DB_CERT}`, 'utf8');
-      await chmod(certFile, 0o777);
-
-      options.ssl = true;
-      options.sslValidate = true;
-      options.sslCA = certFile;
-    }
+    console.log(`${DB_URL}${dbName || DB_NAME}`);
 
     processFlag = true;
     await mongoose?.connect(`${DB_URL}${dbName || DB_NAME}`, options);

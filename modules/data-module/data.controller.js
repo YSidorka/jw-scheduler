@@ -2,8 +2,7 @@ const {
   getDocumentList,
   getDocumentById,
   createDocument,
-  updateDocument,
-  deleteDocumentById
+  updateDocument
 } = require('./data.service');
 const DataOutputDto = require('./data-output.dto');
 
@@ -58,21 +57,9 @@ async function updateDocumentByIdCtrl(req, res, next) {
   }
 }
 
-async function deleteDocumentByIdCtrl(req, res, next) {
-  try {
-    const { id } = req.params;
-    const result = await deleteDocumentById(id);
-
-    return res.send(result);
-  } catch (err) {
-    return next({ message: `DELETE /${req.params.id}: ${err.message}` });
-  }
-}
-
 module.exports = {
   getAllDocumentsCtrl,
   getDocumentByIdCtrl,
   createDocumentCtrl,
-  updateDocumentByIdCtrl,
-  deleteDocumentByIdCtrl
+  updateDocumentByIdCtrl
 };

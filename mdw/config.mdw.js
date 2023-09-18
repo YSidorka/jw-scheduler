@@ -1,6 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const { setResponseHeader } = require('../common/utils');
+const { setResponseHeader } = require('sky-utils');
 
 const bodyParserMdw = express.Router();
 const cookieParserMdw = express.Router();
@@ -43,7 +43,10 @@ function errorHandlerMdw(err, req, res, next) {
   setResponseHeader(res, { appJSON: true, noRobots: true, noCache: true });
 
   const code = err.code || 500;
-  return res.status(code).send({ code, ...err });
+  const result = { code };
+  if (err.message) result.message = err.message;
+
+  return res.status(code).send(result);
 }
 
 module.exports = {
