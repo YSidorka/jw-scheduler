@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { SECOND, TYPE_ENVIRONMENT, TYPE_WORKER, TYPE_LOG } = require('sky-constants');
+const { SECOND, TYPE_ENVIRONMENT, TYPE_WORKER, TYPE_LOG } = require('@jw/const');
 const { sleep } = require('sky-utils');
 const { getStore } = require('../configs/env.config');
 

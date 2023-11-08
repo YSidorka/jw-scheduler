@@ -1,4 +1,4 @@
-const { TYPE_WORKER } = require('sky-constants');
+const { TYPE_WORKER } = require('@jw/const');
 const { getDocumentList } = require('../data-module/data.service');
 const { addWorker } = require('./worker.service');
 

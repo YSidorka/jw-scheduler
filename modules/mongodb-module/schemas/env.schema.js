@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 // const { fieldEncryption } = require('mongoose-field-encryption');
-const { TYPE_ENVIRONMENT } = require('sky-constants');
+const { TYPE_ENVIRONMENT } = require('@jw/const');
 
 // const { getStore } = require('../../configs/env.config');
 

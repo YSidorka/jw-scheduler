@@ -1,7 +1,7 @@
 const { Worker } = require('worker_threads');
 const { join } = require('path');
 
-const { MAIN_DIR, SECOND } = require('sky-constants');
+const { MAIN_DIR, SECOND } = require('@jw/const');
 const { envInit } = require('../data-module/data.service');
 const { createCRONTask } = require('../cron-module/cron.module');
 

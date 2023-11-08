@@ -1,4 +1,4 @@
-const { TYPE_ENVIRONMENT } = require('sky-constants');
+const { TYPE_ENVIRONMENT } = require('@jw/const');
 const uuid = require('uuid');
 const {
   findMany,

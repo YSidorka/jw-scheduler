@@ -1,4 +1,4 @@
-const { TYPE_LOG, DAY, SECOND } = require('sky-constants');
+const { TYPE_LOG, DAY, SECOND } = require('@jw/const');
 
 const {
   getDocumentList,

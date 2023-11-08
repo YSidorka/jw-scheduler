@@ -1,4 +1,4 @@
-const { MONGODB_STORE } = require('sky-constants');
+const { MONGODB_STORE } = require('@jw/const');
 
 let port = 80;
 let dataStoreEnv = {};

@@ -1,4 +1,4 @@
-const { SECOND } = require('sky-constants');
+const { SECOND } = require('@jw/const');
 const { STATUS_NEW, STATUS_PROCESS, STATUS_TERM, STATUS_FINISH } = require('./worker.class');
 const { getLogs } = require('../log-module/log.module');
 

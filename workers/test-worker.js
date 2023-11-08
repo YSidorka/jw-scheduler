@@ -1,4 +1,4 @@
-const logger = require('jw-logger');
+const logger = require('@jw/logger');
 
 const { sleep } = require('sky-utils');
 

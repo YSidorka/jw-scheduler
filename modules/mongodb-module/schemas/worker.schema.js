@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { TYPE_WORKER } = require('sky-constants');
+const { TYPE_WORKER } = require('@jw/const');
 
 const { Schema } = mongoose;
 const schema = new Schema(
