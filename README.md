@@ -1,10 +1,12 @@
 ### Job Worker
-*version 1.0.0*
+
+_version 1.0.0_
 
 @jw/scheduler
 
 ---
-job worker scheduler based on worker threads
+
+Job worker scheduler based on worker threads
 
 TODO
 

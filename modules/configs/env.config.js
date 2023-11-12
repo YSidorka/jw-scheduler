@@ -1,4 +1,5 @@
 const { MONGODB_STORE } = require('@jw/const');
+const { initMongoDb } = require('@jw/env.config');
 
 let port = 80;
 let dataStoreEnv = {};
@@ -16,16 +17,11 @@ function initEnvSettings() {
 
 function getDataStoreModule() {
   try {
-    const { dbUrl, dbName, secret, cert } = JSON.parse(process.env.DATA_STORAGE);
-
+    const obj = JSON.parse(process.env.DATA_STORAGE);
+    const options = initMongoDb(obj);
     return {
       type: MONGODB_STORE,
-      options: {
-        dbUrl,
-        dbName,
-        cert,
-        secret: secret || ''
-      }
+      options
     };
   } catch (err) {
     console.log(`Error getDataStoreModule:`, err.message);
