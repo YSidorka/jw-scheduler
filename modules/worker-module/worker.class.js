@@ -1,10 +1,10 @@
 const { Worker } = require('worker_threads');
 const { join } = require('path');
 
-const { MAIN_DIR, SECOND } = require('@jw/const');
-const { envInit } = require('../data-module/data.service');
-const { createCRONTask } = require('../cron-module/cron.module');
+const { MAIN_DIR, SECOND, TYPE_ENVIRONMENT } = require('@jw/const');
+const { getDocumentById } = require('@jw/data.mongo');
 
+const { createCRONTask } = require('../cron-module/cron.module');
 const { addLog } = require('../log-module/log.module');
 
 class JobWorker {
@@ -65,7 +65,7 @@ class JobWorker {
     try {
       if (this.status === JobWorker.STATUS_PROCESS) throw new Error('Already started');
 
-      const $ENV = await envInit(this.env);
+      const $ENV = await initEnvData(this.env);
       const env = {
         title: this.title,
         $ENV: JSON.stringify($ENV || {})
@@ -142,4 +142,26 @@ function stopTimeoutTermination() {
   if (!this.$timeout) return;
   clearTimeout(this.$timeout);
   delete this.$timeout;
+}
+
+async function initEnvData(env) {
+  try {
+    const result = {};
+
+    const keys = Object.keys(env);
+    while (keys.length) {
+      const key = keys.pop();
+      if (env[key]) {
+        result[key] = env[key];
+
+        const doc = await getDocumentById(`${env[key]}`);
+        if (doc?.data && doc?.type === TYPE_ENVIRONMENT) result[key] = doc?.data;
+      }
+    }
+
+    return result;
+  } catch (err) {
+    console.log('Error: initEnvData', err.message);
+    return null;
+  }
 }

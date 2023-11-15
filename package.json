@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@jw/const": "github:YSidorka/jw-const",
+    "@jw/data.mongo": "github:YSidorka/jw-data.mongo",
     "@jw/env.config": "github:YSidorka/jw-env.config",
     "@jw/logger": "github:YSidorka/jw-logger",
     "cookie-parser": "^1.4.6",

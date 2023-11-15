@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
 const { TYPE_LOG } = require('@jw/const');
 
-const { Schema } = mongoose;
 const schema = new Schema(
   {
     _id: { type: String },
@@ -17,4 +16,4 @@ const schema = new Schema(
   }
 );
 
-module.exports = mongoose.model('Log', schema);
+module.exports = schema;

@@ -1,15 +1,22 @@
 const { TYPE_LOG, DAY, SECOND } = require('@jw/const');
-
 const {
+  initConnection,
+  assignSchema,
   getDocumentList,
   getDocument,
   createDocument,
   updateDocument
-} = require('../data-module/data.service');
+} = require('@jw/data.mongo');
+
+const { getStore } = require('../configs/env.config');
+const LogSchema = require('./log.schema');
 
 const logsMap = {};
 let nextSyncDate = 0;
 const TIMEOUT = 15 * SECOND;
+
+const connect = initConnection(getStore().options);
+assignSchema('Log', LogSchema, connect);
 
 async function getAllLogsByWorkerId(workerId, date) {
   try {

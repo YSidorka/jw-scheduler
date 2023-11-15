@@ -1,10 +1,9 @@
-const mongoose = require('mongoose');
-// const { fieldEncryption } = require('mongoose-field-encryption');
+const { Schema } = require('mongoose');
 const { TYPE_ENVIRONMENT } = require('@jw/const');
 
+// const { fieldEncryption } = require('mongoose-field-encryption');
 // const { getStore } = require('../../configs/env.config');
 
-const { Schema } = mongoose;
 const schema = new Schema(
   {
     _id: { type: String },
@@ -26,4 +25,4 @@ const schema = new Schema(
 //   });
 // }
 
-module.exports = mongoose.model('Environment', schema);
+module.exports = schema;

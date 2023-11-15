@@ -3,7 +3,7 @@ const {
   getDocumentById,
   createDocument,
   updateDocument
-} = require('./data.service');
+} = require('@jw/data.mongo');
 const DataOutputDto = require('./data-output.dto');
 
 async function getAllDocumentsCtrl(req, res, next) {
