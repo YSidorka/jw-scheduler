@@ -65,10 +65,10 @@ class JobWorker {
     try {
       if (this.status === JobWorker.STATUS_PROCESS) throw new Error('Already started');
 
-      const $ENV = await initEnvData(this.env);
+      const _ENV_ = await initEnvData(this.env);
       const env = {
         title: this.title,
-        $ENV: JSON.stringify($ENV || {})
+        _ENV_: JSON.stringify(_ENV_ || {})
       };
 
       this.worker = startWorkerProcess.call(this, env);
