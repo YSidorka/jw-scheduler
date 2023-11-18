@@ -3,7 +3,6 @@ const express = require('express');
 const ConfigMiddleware = require('./config.mdw');
 
 const WorkerRouter = require('../modules/worker-module/worker.router');
-const DataRouter = require('../modules/data-module/data.router');
 const MemoryRouter = require('./memory.router');
 
 const app = express();
@@ -17,7 +16,6 @@ function appInit() {
 
     // middleware to return memory status
     app.use(MemoryRouter);
-    app.use('/api', DataRouter);
 
     app.use(WorkerRouter);
 

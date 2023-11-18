@@ -11,7 +11,7 @@ const schema = new Schema(
     data: { type: Schema.Types.Mixed, required: true }
   },
   {
-    collection: 'documents',
+    collection: 'env',
     minimize: false,
     strict: true,
     strictQuery: true

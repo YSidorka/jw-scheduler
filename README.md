@@ -9,6 +9,7 @@ _version 1.0.0_
 Job worker scheduler based on worker threads
 
 ### Worker object
+
 ```json
 {
   "_id": String,
@@ -19,14 +20,15 @@ Job worker scheduler based on worker threads
     "path": "worker.js",
     "env": Object,
     "cronexp": CronExp
-  }  
+  }
 }
 ```
 
 #### CronExp
+
 ```
  ┌────────────── second (optional) 0-59
- │ ┌──────────── minute            0-59 
+ │ ┌──────────── minute            0-59
  │ │ ┌────────── hour              0-23
  │ │ │ ┌──────── day of month      1-31
  │ │ │ │ ┌────── month             1-12
@@ -35,6 +37,7 @@ Job worker scheduler based on worker threads
 ```
 
 #### Env. sample
+
 ```json
 # DATA_STORAGE
 {

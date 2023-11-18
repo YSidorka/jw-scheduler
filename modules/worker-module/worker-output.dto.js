@@ -20,7 +20,7 @@ class WorkerOutputDto {
       this.durationSeconds = Math.round((finished - obj.started) / SECOND);
     }
 
-    this.env = obj.env;
+    this.env = {}; // obj.env;
     this.timeout = obj.timeout || 'no limit';
 
     if (obj.cron) {
